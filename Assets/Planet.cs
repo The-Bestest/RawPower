@@ -7,6 +7,8 @@ public class Planet : MonoBehaviour
 {
     [SerializeField]
     private GameObject _actionableModel;
+
+    // This tends not to work, so let us keep logging this and keep an eye on it in the editor
     public GameObject actionableModel
     {
         get
@@ -31,7 +33,6 @@ public class Planet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(actionableModel);
         ShowActionableModel();
     }
 
@@ -47,19 +48,13 @@ public class Planet : MonoBehaviour
         float sphereRadius = this.GetComponent<SphereCollider>().radius;
         float distance;
 
-        bool isRayThroughSphere = CheckRaySphere(ray, sphereCenter, sphereRadius, out distance);
-        Vector3 position = ray.GetPoint(distance);
-
-        //Debug.Log(position);
-        if (isRayThroughSphere)
+        if (DoesRayIntersectSphere(ray, sphereCenter, sphereRadius, out distance))
         {
             actionableModel.SetActive(true);
-            // did hit sphere.
-            //Vector3 position = ray.GetPoint(distance);
+
+            Vector3 position = ray.GetPoint(distance);
             Vector3 normal = (position - sphereCenter).normalized;
             Quaternion rotation = Quaternion.LookRotation(normal);
-
-
 
             actionableModel.transform.position = position;
             actionableModel.transform.rotation = rotation;
@@ -98,7 +93,6 @@ public class Planet : MonoBehaviour
         }
     }
 
-    // no hoverModel here for some reason
     public void Build(GameObject objectToBuild)
     {
         if (!canBuild(objectToBuild))
@@ -133,7 +127,7 @@ public class Planet : MonoBehaviour
         return true;
     }
 
-    private bool CheckRaySphere(Ray ray, Vector3 sphereOrigin, float sphereRadius, out float distance)
+    private bool DoesRayIntersectSphere(Ray ray, Vector3 sphereOrigin, float sphereRadius, out float distance)
     {
         Vector3 localPoint = ray.origin - sphereOrigin;
         float temp = -Vector3.Dot(localPoint, ray.direction);
