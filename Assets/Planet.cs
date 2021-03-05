@@ -67,11 +67,17 @@ public class Planet : MonoBehaviour
 
     public void startBuilding(GameObject model)
     {
+        if(actionableModel)
+        {
+            Destroy(actionableModel);
+        }
+
         actionableModel = Instantiate(model);
     }
 
     public void stopBuilding()
     {
+        Debug.Log(actionableModel);
         Destroy(actionableModel);
         actionableModel = null;
     }
