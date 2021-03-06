@@ -24,18 +24,40 @@ public class Actionable : MonoBehaviour
         state = ActionableState.OK;
     }
 
+    void Update()
+    {
+        if(isActionableHit())
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Planet planet = SelectionManager.Instance.GetSelectedPlanet();
+
+                if (planet.actionableModel == gameObject)
+                {
+                    planet.Build();
+                }
+
+                if(state == ActionableState.Broken)
+                {
+                    Repair();
+                }
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                Planet planet = SelectionManager.Instance.GetSelectedPlanet();
+
+                if (!planet.actionableModel)
+                {
+                    planet.Demolish(gameObject);
+                }
+            }
+        }
+    }
+
     void OnMouseDown()
     {
-        Planet planet = SelectionManager.Instance.GetSelectedPlanet();
 
-        if (planet.actionableModel == gameObject)
-        {
-            planet.Build();
-        }
-        else if (!planet.actionableModel)
-        {
-            planet.Demolish(gameObject);
-        }
     }
 
     void OnMouseOver()
@@ -67,7 +89,11 @@ public class Actionable : MonoBehaviour
         state = ActionableState.Broken;
         setBreakdownMaterial();
     }
-
+    public void Repair()
+    {
+        state = ActionableState.OK;
+        setDefaultMaterial();
+    }
 
     public void setDefaultMaterial()
     {
@@ -100,4 +126,22 @@ public class Actionable : MonoBehaviour
             GetComponent<Renderer>().material = material;
         }
     }
+
+    private bool isActionableHit()
+    {
+        return GetClickedGameObject() == gameObject;
+    }
+    private static GameObject GetClickedGameObject()
+    {
+        // Builds a ray from camera point of view to the mouse position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Casts the ray and get the first game object hit
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            return hit.transform.gameObject;
+        else
+            return null;
+    }
+
 }

@@ -34,6 +34,17 @@ public class SelectionManager : MonoBehaviour
         _selectedPlanet = FindObjectOfType<Planet>();
     }
 
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (GetClickedGameObject() == null)
+            {
+                _selectedPlanet.stopBuilding();
+            }
+        }
+    }
+
     public Planet GetSelectedPlanet() { return _selectedPlanet; }
 
 
@@ -52,4 +63,17 @@ public class SelectionManager : MonoBehaviour
         // or abort up any UI operations currently in progress on the selected planet.
         _selectedPlanet = planet;
     }
+    private static GameObject GetClickedGameObject()
+    {
+        // Builds a ray from camera point of view to the mouse position
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // Casts the ray and get the first game object hit
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            return hit.transform.gameObject;
+        else
+            return null;
+    }
+
 }
