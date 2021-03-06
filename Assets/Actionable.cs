@@ -6,18 +6,62 @@ public class Actionable : MonoBehaviour
 {
     public Material material;
     public Material disabledMaterial;
+    public Material fadeoutMaterial;
+
+    private void Start()
+    {
+        setDefaultMaterial();
+    }
 
     void OnMouseDown()
     {
-        SelectionManager.Instance.GetSelectedPlanet().Build();
+        Planet planet = SelectionManager.Instance.GetSelectedPlanet();
+
+        if (planet.actionableModel == gameObject)
+        {
+            planet.Build();
+        }
+        else if (!planet.actionableModel)
+        {
+            planet.Demolish(gameObject);
+        }
     }
 
     void OnMouseOver()
     {
-        SelectionManager.Instance.GetSelectedPlanet().Hover();
+        Planet planet = SelectionManager.Instance.GetSelectedPlanet();
+
+        if (planet.actionableModel == gameObject)
+        {
+            planet.Hover();
+        }
+        else if(!planet.actionableModel)
+        {
+            setFadeoutMaterial();
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        setDefaultMaterial();
     }
 
     public void setDefaultMaterial()
+    {
+        setMaterial(material);
+    }
+
+    public void setDisabledMaterial()
+    {
+        setMaterial(disabledMaterial);
+    }
+
+    public void setFadeoutMaterial()
+    {
+        setMaterial(fadeoutMaterial);
+    }
+
+    private void setMaterial(Material material)
     {
         if (material == null)
         {
@@ -26,18 +70,6 @@ public class Actionable : MonoBehaviour
         else
         {
             GetComponent<Renderer>().material = material;
-        }
-    }
-
-    public void setDisabledMaterial()
-    {
-        if (disabledMaterial == null)
-        {
-            Debug.LogError("No material set");
-        }
-        else
-        {
-            GetComponent<Renderer>().material = disabledMaterial;
         }
     }
 }

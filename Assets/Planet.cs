@@ -5,7 +5,12 @@ using UnityEngine;
 public class Planet : MonoBehaviour
 {
     [NonSerialized]
-    public GameObject actionableModel;
+    private GameObject _actionableModel;
+    public GameObject actionableModel
+    {
+        get { return _actionableModel;  }
+        private set { _actionableModel = value; }
+    }
     public ArrayList actionables = new ArrayList();
 
     // Start is called before the first frame update
@@ -45,7 +50,13 @@ public class Planet : MonoBehaviour
 
         actionables.Add(Instantiate(actionableModel));
 
-        this.stopBuilding();
+        stopBuilding();
+    }
+
+    public void Demolish(GameObject actionable)
+    {
+        actionables.Remove(actionable);
+        Destroy(actionable);
     }
 
     public void Hover()
