@@ -4,13 +4,24 @@ using UnityEngine.Events;
 
 public class Actionable : MonoBehaviour
 {
+    public enum ActionableState
+    {
+        OK,
+        Broken
+    };
+
     public Material material;
     public Material disabledMaterial;
     public Material fadeoutMaterial;
+    public Material breakdownMaterial;
+
+
+    public ActionableState state = ActionableState.OK;
 
     private void Start()
     {
         setDefaultMaterial();
+        state = ActionableState.OK;
     }
 
     void OnMouseDown()
@@ -43,8 +54,20 @@ public class Actionable : MonoBehaviour
 
     private void OnMouseExit()
     {
-        setDefaultMaterial();
+        if (state == ActionableState.OK)
+        {
+            setDefaultMaterial();
+        } else
+        {
+            setBreakdownMaterial();
+        }
     }
+    public void Breakdown()
+    {
+        state = ActionableState.Broken;
+        setBreakdownMaterial();
+    }
+
 
     public void setDefaultMaterial()
     {
@@ -59,6 +82,11 @@ public class Actionable : MonoBehaviour
     public void setFadeoutMaterial()
     {
         setMaterial(fadeoutMaterial);
+    }
+
+    public void setBreakdownMaterial()
+    {
+        setMaterial(breakdownMaterial);
     }
 
     private void setMaterial(Material material)
