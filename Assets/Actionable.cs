@@ -4,30 +4,17 @@ using UnityEngine.Events;
 
 public class Actionable : MonoBehaviour
 {
-
-    [Serializable]
-    public class OnClick : UnityEvent<GameObject> { }
-    [Serializable]
-    public class OnHover : UnityEvent<GameObject> { }
-
     public Material material;
     public Material disabledMaterial;
 
-    public OnClick onClick = new OnClick();
-    public OnHover onHover = new OnHover();
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
     void OnMouseDown()
     {
-        onClick.Invoke(gameObject);
+        SelectionManager.Instance.GetSelectedPlanet().Build();
     }
 
     void OnMouseOver()
     {
-        onHover.Invoke(gameObject);
+        SelectionManager.Instance.GetSelectedPlanet().Hover();
     }
 
     public void setDefaultMaterial()
@@ -52,11 +39,5 @@ public class Actionable : MonoBehaviour
         {
             GetComponent<Renderer>().material = disabledMaterial;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
