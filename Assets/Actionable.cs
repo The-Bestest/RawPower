@@ -15,6 +15,11 @@ public class Actionable : MonoBehaviour
     public Material fadeoutMaterial;
     public Material breakdownMaterial;
 
+    public int price = 0;
+    public int income = 0;
+    public int power = 0;
+
+    public float pollution = 0;
 
     public ActionableState state = ActionableState.OK;
 

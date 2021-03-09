@@ -112,3 +112,8 @@ MonoBehaviour:
   disabledMaterial: {fileID: 2100000, guid: 261455ee0410a1646b2a9c15b2a35816, type: 2}
   fadeoutMaterial: {fileID: 2100000, guid: ae7a7d7315974b5428c44a6210b0ea10, type: 2}
   breakdownMaterial: {fileID: 2100000, guid: a7ae19f09265e484ba4062706a51e46a, type: 2}
+  price: 0
+  income: 10
+  power: 0
+  pollution: 10
+  state: 0
