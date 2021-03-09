@@ -23,16 +23,16 @@ public class MoneyManager : MonoBehaviour
             return _instance;
         }
     }
-    Planet planet;
-
     public Text MoneyField;
 
     public float money = 0;
-    public int time = 60;
 
     public void SetMoney(float income)
     {
+        // Positive to add, Negative to subtract
         money += income;
+
+        UpdateMoney();
     }
 
     public float GetMoney()
@@ -40,21 +40,9 @@ public class MoneyManager : MonoBehaviour
         return money;
     }
 
-    void Start()
+    public void UpdateMoney()
     {
-        planet = SelectionManager.Instance.GetSelectedPlanet();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        foreach (GameObject action in planet.actionables)
-        {
-            if (action.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
-            {
-                SetMoney((action.GetComponent<Actionable>().pollution * Time.deltaTime / time));
-            }
-        }
+        // Update money in UI everytime money is changed
         MoneyField.text = "$ " + (int)money;
     }
 }

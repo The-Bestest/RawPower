@@ -47,7 +47,6 @@ public class SelectionManager : MonoBehaviour
 
     public Planet GetSelectedPlanet() { return _selectedPlanet; }
 
-
     public void startBuildingOnCurrentPlanet(GameObject actionable)
     {
         _selectedPlanet.startBuilding(actionable);

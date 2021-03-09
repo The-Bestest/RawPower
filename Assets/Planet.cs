@@ -48,6 +48,9 @@ public class Planet : MonoBehaviour
             return;
         }
 
+        int price = actionableModel.GetComponent<Actionable>().price;
+        MoneyManager.Instance.SetMoney(-price);
+
         actionables.Add(Instantiate(actionableModel));
 
         stopBuilding();
@@ -55,8 +58,13 @@ public class Planet : MonoBehaviour
 
     public void Demolish(GameObject actionable)
     {
-        actionables.Remove(actionable);
-        Destroy(actionable);
+        int price = actionable.GetComponent<Actionable>().demolishPrice;
+        if (price <= MoneyManager.Instance.GetMoney())
+        {
+            actionables.Remove(actionable);
+            Destroy(actionable);
+            MoneyManager.Instance.SetMoney(-price);
+        }
     }
 
     public void Hover()
@@ -114,6 +122,12 @@ public class Planet : MonoBehaviour
         if (actionables.Contains(objectToBuild))
         {
             Debug.LogError("Object already built");
+            return false;
+        }
+
+        int price = objectToBuild.GetComponent<Actionable>().price;
+        if (MoneyManager.Instance.GetMoney() < price)
+        {
             return false;
         }
 

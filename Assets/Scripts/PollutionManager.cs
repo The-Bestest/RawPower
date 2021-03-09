@@ -24,30 +24,16 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
-    Planet planet;
-
     public Text PollutionPrecent;
     public RawImage CurrentPollution;
     public RawImage TotalPollution;
 
-    public float time = 60;
 
-    float pollution = 0;
+    public float pollution = 0;
     public float maxPollution = 100;
 
-    private void Start()
+    public void UpdatePollution()
     {
-        planet = SelectionManager.Instance.GetSelectedPlanet();
-    }
-    public void Update()
-    {
-        foreach(GameObject action in planet.actionables)
-        {
-            if (action.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
-            {
-                pollution += (action.GetComponent<Actionable>().pollution * Time.deltaTime / time);
-            }
-        }
         if (pollution < maxPollution)
         {
             PollutionPrecent.text = (int)(pollution / maxPollution * 100) + "%";
@@ -57,7 +43,6 @@ public class PollutionManager : MonoBehaviour
         else
         {
             PollutionPrecent.text = "100%";
-            //Add lose
         }
     }
 }

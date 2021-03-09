@@ -18,6 +18,8 @@ public class Actionable : MonoBehaviour
     public int price = 0;
     public int income = 0;
     public int power = 0;
+    public int repairPrice = 0;
+    public int demolishPrice = 0;
 
     public float pollution = 0;
 
@@ -38,7 +40,7 @@ public class Actionable : MonoBehaviour
                 Planet planet = SelectionManager.Instance.GetSelectedPlanet();
 
                 if (planet.actionableModel == gameObject)
-                {
+                { 
                     planet.Build();
                 }
 
@@ -96,8 +98,12 @@ public class Actionable : MonoBehaviour
     }
     public void Repair()
     {
-        state = ActionableState.OK;
-        setDefaultMaterial();
+        if (repairPrice <= MoneyManager.Instance.GetMoney())
+        {
+            state = ActionableState.OK;
+            setDefaultMaterial();
+            MoneyManager.Instance.SetMoney(-repairPrice);
+        }
     }
 
     public void setDefaultMaterial()
