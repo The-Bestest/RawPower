@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -27,8 +28,13 @@ public class GameManager : MonoBehaviour
     PollutionManager pollution;
     PowerManager power;
 
+    public Text WinText;
+    public GameObject WinBackground;
+
     public int time = 60; // Full value of money and pollution is added progressively over this amount of time in seconds
     public float powerReq = 2;
+
+    private float atimer = 0;
 
     void Start()
     {
@@ -40,6 +46,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+        atimer += Time.deltaTime;
+        if (atimer > time)
+        {
+            if(power.power < power.powerReq)
+            {
+                money.SetMoney(power.power - power.powerReq);
+
+                Debug.Log("money check");
+            }
+            atimer = 0;
+        }
         power.tempPower = 0;
         foreach (GameObject action in planet.actionables)
         {
@@ -50,13 +67,34 @@ public class GameManager : MonoBehaviour
                 pollution.pollution += (action.GetComponent<Actionable>().pollution * Time.deltaTime / time);
                 pollution.UpdatePollution();
 
-                power.SetPower(action.GetComponent<Actionable>().power);
-                power.UpdatePowerUI();
+                power.tempPower += action.GetComponent<Actionable>().power;
             }
         }
+        power.SetPower(power.tempPower);
+        power.UpdatePowerUI();
         if (power.powerReq <= power.maxReq)
         {
-            power.UpdateRequirement(Mathf.Pow(powerReq, 2) * Time.deltaTime / time);
+            power.UpdateRequirement(Mathf.Pow(powerReq, 2) * Time.deltaTime / (time * 10));
+        }
+        WinOrLose();
+    }
+
+    private void WinOrLose()
+    {
+        if (power.power >= power.maxReq)
+        {
+            WinText.text = "You Win!!";
+            WinBackground.SetActive(true);
+        }
+        else if(money.money < 0)
+        {
+            WinText.text = "You Lose!!";
+            WinBackground.SetActive(true);
+        }
+        else if(pollution.pollution >= pollution.maxPollution)
+        {
+            WinText.text = "You Lose!!";
+            WinBackground.SetActive(true);
         }
     }
 }
