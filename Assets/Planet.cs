@@ -35,6 +35,11 @@ public class Planet : MonoBehaviour
         actionableModel = Instantiate(model);
     }
 
+    public bool isBuilding()
+    {
+        return actionableModel != null;
+    }
+
     public void stopBuilding()
     {
         Destroy(actionableModel);

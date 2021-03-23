@@ -27,6 +27,11 @@ public class MoneyManager : MonoBehaviour
 
     public float money = 0;
 
+    public void Start()
+    {
+        UpdateMoney();
+    }
+
     public void SetMoney(float income)
     {
         // Positive to add, Negative to subtract

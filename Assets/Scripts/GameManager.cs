@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         atimer += Time.deltaTime;
-        if (atimer > time)
+        if (atimer > 3 && power.powerReq > 10)
         {
             if(power.power < power.powerReq)
             {
