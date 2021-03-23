@@ -7,18 +7,18 @@ using UnityEngine.UI;
 public class LoadingScreen: MonoBehaviour
 {
 
-    float Timer = 0.3f;
+    float Timer = 0.4f;
     float FadeIn = 0;
-    float Vent = 1;
+    float Vent = 1.5f;
 
     public Text LogoText;
     public SpriteRenderer logoMat;
-    //Component Sound;
+    //public Component Sound;
 
-   /*void Awake()
+   void Awake()
     {
-        GetComponent<AudioSource>().PlayDelayed(2.8f);
-    }*/
+        //GetComponent<AudioSource>().Play();
+    }
 
     void Update()
     {
