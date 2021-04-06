@@ -13,17 +13,17 @@ public class WinLose : MonoBehaviour
 
     public void Lose()
     {
-        StartCoroutine(Fading("Game Over \n You Lose"));
+        StartCoroutine(Fading("Game Over \n The earth is ruined by pollution"));
     }
 
     public void Win()
     {
-        StartCoroutine(Fading("Game Over \n You Win"));
+        StartCoroutine(Fading("Game Over \n You supplied the earth with power, without destroying the planet, good job-"));
     }
 
     public void Reload()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator Fading(string winOrLose)
