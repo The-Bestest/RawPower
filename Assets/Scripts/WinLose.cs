@@ -6,7 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class WinLose : MonoBehaviour
 {
+    static WinLose _instance;
+    public static WinLose Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<WinLose>();
+                if (_instance == null)
+                {
+                    GameObject manager = new GameObject("Win Lose");
+                    _instance = manager.AddComponent<WinLose>();
+                }
+            }
 
+            return _instance;
+        }
+    }
     public Text WinLoseText;
     public RawImage GreyScale;
     public Button Replay;

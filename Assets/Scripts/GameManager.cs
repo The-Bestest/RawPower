@@ -83,18 +83,15 @@ public class GameManager : MonoBehaviour
     {
         if (power.power >= power.maxReq)
         {
-            WinText.text = "You Win!!";
-            WinBackground.SetActive(true);
+            WinLose.Instance.Win();
         }
         else if(money.money < 0)
         {
-            WinText.text = "You Lose!!";
-            WinBackground.SetActive(true);
+            WinLose.Instance.Lose();
         }
         else if(pollution.pollution >= pollution.maxPollution)
         {
-            WinText.text = "You Lose!!";
-            WinBackground.SetActive(true);
+            WinLose.Instance.Lose();
         }
     }
 }
