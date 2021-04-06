@@ -45,6 +45,7 @@ public class WinLose : MonoBehaviour
 
     IEnumerator Fading(string winOrLose)
     {
+        GreyScale.gameObject.SetActive(true);
         WinLoseText.text = winOrLose;
         yield return new WaitForSecondsRealtime(2);
         while(GreyScale.color.a < 0.8f)
