@@ -570,7 +570,7 @@ GameObject:
   - component: {fileID: 429317242}
   - component: {fileID: 429317241}
   m_Layer: 5
-  m_Name: PollutionPrecent
+  m_Name: PollutionPercentage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2292,11 +2292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35dd9266f4e48fa44bcf85b8d9bbb0a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PollutionPrecent: {fileID: 429317241}
+  PollutionText: {fileID: 429317241}
   CurrentPollution: {fileID: 1815099298}
   TotalPollution: {fileID: 823561105}
-  pollution: 0
-  maxPollution: 100
 --- !u!114 &1478704381
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2310,7 +2308,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoneyField: {fileID: 1405785198}
-  money: 100
+  _balance: 100
 --- !u!114 &1478704382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2325,8 +2323,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WinText: {fileID: 1880273240}
   WinBackground: {fileID: 925740678}
-  time: 200
-  powerReq: 40
+  expectedGameTimeInSeconds: 300
 --- !u!114 &1478704383
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2339,14 +2336,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23de59dc9ca06647a00546fdf1fa45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PowerPrecent: {fileID: 277289010}
+  PowerText: {fileID: 277289010}
   MaxPower: {fileID: 626063043}
   CurrentPower: {fileID: 40320245}
   PowerRequirement: {fileID: 169736157}
-  power: 0
-  tempPower: 0
-  powerReq: 0
-  maxReq: 1400
 --- !u!114 &1478704384
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,74 +25,121 @@ public class GameManager : MonoBehaviour
         }
     }
     Planet planet;
-    MoneyManager money;
-    PollutionManager pollution;
-    PowerManager power;
 
     public Text WinText;
     public GameObject WinBackground;
+    public float expectedGameTimeInSeconds = 300;
+    public float moneyCheckIntervalInSeconds = 5;
 
-    public int time = 60; // Full value of money and pollution is added progressively over this amount of time in seconds
-    public float powerReq = 2;
-
-    private float atimer = 0;
+    private float startTime;
+    private float timeToCheckMoney = 0;
 
     void Start()
     {
+        startTime = Time.time;
+        timeToCheckMoney = moneyCheckIntervalInSeconds;
         planet = SelectionManager.Instance.GetSelectedPlanet();
-        money = this.GetComponent<MoneyManager>();
-        pollution = this.GetComponent<PollutionManager>();
-        power = this.GetComponent<PowerManager>();
     }
 
     void Update()
     {
-        atimer += Time.deltaTime;
-        if (atimer > 3 && power.powerReq > 10)
-        {
-            if(power.power < power.powerReq)
-            {
-                money.SetMoney(power.power - power.powerReq);
+        float multiplier = expectedGameTimeInSeconds/30000;
+        float timeFactor = Time.deltaTime * multiplier;
+        float elapsedTime = Time.time - startTime;
 
-                Debug.Log("money check");
-            }
-            atimer = 0;
-        }
-        power.tempPower = 0;
-        foreach (GameObject action in planet.actionables)
-        {
-            if (action.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
-            {
-                money.SetMoney((action.GetComponent<Actionable>().income * Time.deltaTime / time));
+        // Money check
+        PollutionManager.Instance.IncreasePollution(GetCurrentPollutionIncrease() * timeFactor * 0.8f);
+        PowerManager.Instance.SetPowerLevel(GetCurrentPowerLevel());
+        PowerManager.Instance.SetPowerRequirement(GetCurrentPowerRequirement(elapsedTime));
+        MoneyManager.Instance.AddAmount(GetCurrentIncome() * timeFactor);
 
-                pollution.pollution += (action.GetComponent<Actionable>().pollution * Time.deltaTime / time);
-                pollution.UpdatePollution();
-
-                power.tempPower += action.GetComponent<Actionable>().power;
-            }
-        }
-        power.SetPower(power.tempPower);
-        power.UpdatePowerUI();
-        if (power.powerReq <= power.maxReq)
+        if(elapsedTime > 20)
         {
-            power.UpdateRequirement(Mathf.Pow(powerReq, 2) * Time.deltaTime / (time * 10));
+            timeToCheckMoney -= Time.deltaTime;
         }
+        if(timeToCheckMoney < 0)
+        {
+            float powerDifference = PowerManager.Instance.currentPowerLevel - PowerManager.Instance.currentPowerRequirement;
+            MoneyManager.Instance.AddAmount(powerDifference/2);
+
+            timeToCheckMoney = moneyCheckIntervalInSeconds;
+        }
+        
+
+
         WinOrLose();
     }
 
     private void WinOrLose()
     {
-        if (power.power >= power.maxReq)
+        if (PowerManager.Instance.currentPowerLevel >= PowerManager.Instance.maxRequirement)
         {
             WinLose.Instance.Win();
         }
-        else if(money.money < 0)
+        else if(MoneyManager.Instance.balance < 0)
         {
             WinLose.Instance.Lose();
         }
-        else if(pollution.pollution >= pollution.maxPollution)
+        else if(PollutionManager.Instance.getPollutionProgress() >= 100)
         {
             WinLose.Instance.Lose();
         }
     }
+
+    private uint GetCurrentPowerLevel()
+    {
+        uint result = 0;
+        foreach (GameObject actionable in planet.actionables)
+        {
+            Actionable actionableComponent = actionable.GetComponent<Actionable>();
+            if (actionable.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
+            {
+                int actionablePower = actionableComponent.power;
+                result += actionablePower > 0 ? (uint) actionablePower : 0;
+            }
+        }
+
+        return result;
+    }
+
+    private float GetCurrentPowerRequirement(float elapsedTime)
+    {
+        float x = elapsedTime / expectedGameTimeInSeconds;
+
+        x = x > 1 ? 1 : x;
+
+        // Do NOT edit this, otherwise expectedGameTimeInSeconds is nt going to make any sense
+        return (Mathf.Pow(x, 2.3f) + 4 * Mathf.Pow(x, 1.1f) - 2 * x) * PowerManager.Instance.maxRequirement / 3;
+    } 
+
+    private uint GetCurrentIncome()
+    {
+        uint result = 0;
+        foreach (GameObject actionable in planet.actionables)
+        {
+            Actionable actionableComponent = actionable.GetComponent<Actionable>();
+            if (actionable.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
+            {
+                int actionableIncome = actionableComponent.income;
+                result += actionableIncome > 0 ? (uint)actionableIncome : 0;
+            }
+        }
+
+        return result;
+    }
+    private float GetCurrentPollutionIncrease()
+    {
+        float result = 0;
+        foreach (GameObject actionable in planet.actionables)
+        {
+            Actionable actionableComponent = actionable.GetComponent<Actionable>();
+            if (actionable.GetComponent<Actionable>().state == Actionable.ActionableState.OK)
+            {
+                result += actionableComponent.pollution;
+            }
+        }
+
+        return result;
+    }
+
 }
