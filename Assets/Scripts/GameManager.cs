@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
         float timeFactor = Time.deltaTime * multiplier;
         float elapsedTime = Time.time - startTime;
 
-        // Money check
         PollutionManager.Instance.IncreasePollution(GetCurrentPollutionIncrease() * timeFactor * 0.8f);
         PowerManager.Instance.SetPowerLevel(GetCurrentPowerLevel());
         PowerManager.Instance.SetPowerRequirement(GetCurrentPowerRequirement(elapsedTime));
@@ -64,8 +63,6 @@ public class GameManager : MonoBehaviour
 
             timeToCheckMoney = moneyCheckIntervalInSeconds;
         }
-        
-
 
         WinOrLose();
     }
