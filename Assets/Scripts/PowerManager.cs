@@ -33,11 +33,11 @@ public class PowerManager : MonoBehaviour
 
     public float currentPowerLevel { get; private set; } = 0;
     public float currentPowerRequirement { get; private set; } = 0;
-    public float maxRequirement { get; private set; } = 500;
+    public float maxRequirement { get; private set; } = 445;
 
     public void SetPowerLevel(float newPowerLevel)
     {
-        currentPowerLevel = newPowerLevel;
+        currentPowerLevel = Mathf.Min(newPowerLevel, maxRequirement);
         UpdatePowerUI();
     }
 
@@ -50,8 +50,7 @@ public class PowerManager : MonoBehaviour
     public void UpdatePowerUI()
     {
         CurrentPower.rectTransform.sizeDelta = new Vector2(MaxPower.rectTransform.sizeDelta.x, currentPowerLevel);
-        CurrentPower.rectTransform.anchoredPosition = new Vector2(0, currentPowerLevel / 2);
         PowerText.text = currentPowerLevel + " / " + (int)currentPowerRequirement;
-        PowerRequirement.rectTransform.anchoredPosition = new Vector2(PowerRequirement.rectTransform.anchoredPosition.x, currentPowerRequirement);
+        PowerRequirement.rectTransform.anchoredPosition = new Vector2(PowerRequirement.rectTransform.anchoredPosition.x, currentPowerRequirement + 5);
     }
 }

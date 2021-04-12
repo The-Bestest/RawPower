@@ -49,8 +49,8 @@ public class PollutionManager : MonoBehaviour
         if (pollution < maxPollution)
         {
             PollutionText.text = (int) getPollutionProgress() + "%";
-            CurrentPollution.rectTransform.sizeDelta = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * getPollutionProgress(), TotalPollution.rectTransform.sizeDelta.y);
-            CurrentPollution.rectTransform.anchoredPosition = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * getPollutionProgress() / 2, 0);
+            CurrentPollution.rectTransform.sizeDelta = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * getPollutionProgress() * 0.95f, TotalPollution.rectTransform.sizeDelta.y);
+            CurrentPollution.rectTransform.anchoredPosition = new Vector2(10, 0);
         }
         else
         {

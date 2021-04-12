@@ -69,17 +69,20 @@ public class GameManager : MonoBehaviour
 
     private void WinOrLose()
     {
-        if (PowerManager.Instance.currentPowerLevel >= PowerManager.Instance.maxRequirement)
+        if (PowerManager.Instance.currentPowerRequirement >= PowerManager.Instance.maxRequirement && PowerManager.Instance.currentPowerLevel >= PowerManager.Instance.maxRequirement)
         {
             WinLose.Instance.Win();
+            Debug.Log("WIIN");
         }
         else if(MoneyManager.Instance.balance < 0)
         {
             WinLose.Instance.Lose();
+            Debug.Log("NO MOENYS");
         }
         else if(PollutionManager.Instance.getPollutionProgress() >= 100)
         {
             WinLose.Instance.Lose();
+            Debug.Log("TOO POLUTION");
         }
     }
 
