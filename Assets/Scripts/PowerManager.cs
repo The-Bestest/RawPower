@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class PowerManager : MonoBehaviour
@@ -24,38 +25,32 @@ public class PowerManager : MonoBehaviour
         }
     }
 
-    public Text PowerPrecent;
+    public Text PowerText;
 
     public RawImage MaxPower;
     public RawImage CurrentPower;
     public RawImage PowerRequirement;
 
-    public float power = 0;
-    public float tempPower = 0;
-    public float powerReq = 0;
-    public float maxReq = 500;
+    public float currentPowerLevel { get; private set; } = 0;
+    public float currentPowerRequirement { get; private set; } = 0;
+    public float maxRequirement { get; private set; } = 445;
 
-    public void SetPower(float powerLevel)
-    { 
-        tempPower += powerLevel; // Accumulates power from all buildings
-        power = tempPower;       // Set power to accumulated, so power isn't added from each building every frame
+    public void SetPowerLevel(float newPowerLevel)
+    {
+        currentPowerLevel = Mathf.Min(newPowerLevel, maxRequirement);
+        UpdatePowerUI();
     }
 
-    public float GetPower()
+    public void SetPowerRequirement(float newPowerRequirement)
     {
-        return power;
-    }
-
-    public void UpdateRequirement(float addedPowerReq)
-    {
-        powerReq += addedPowerReq;
-        PowerRequirement.rectTransform.anchoredPosition = new Vector2(PowerRequirement.rectTransform.anchoredPosition.x, PowerRequirement.rectTransform.anchoredPosition.y + addedPowerReq);
+        currentPowerRequirement = newPowerRequirement;
+        UpdatePowerUI();
     }
 
     public void UpdatePowerUI()
     {
-        CurrentPower.rectTransform.sizeDelta = new Vector2(MaxPower.rectTransform.sizeDelta.x, power);
-        CurrentPower.rectTransform.anchoredPosition = new Vector2(0, power / 2);
-        PowerPrecent.text = power + " / " + (int)powerReq;
+        CurrentPower.rectTransform.sizeDelta = new Vector2(MaxPower.rectTransform.sizeDelta.x, currentPowerLevel);
+        PowerText.text = currentPowerLevel + " / " + (int)currentPowerRequirement;
+        PowerRequirement.rectTransform.anchoredPosition = new Vector2(PowerRequirement.rectTransform.anchoredPosition.x, currentPowerRequirement + 5);
     }
 }

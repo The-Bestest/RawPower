@@ -25,29 +25,36 @@ public class MoneyManager : MonoBehaviour
     }
     public Text MoneyField;
 
-    public float money = 0;
+    [SerializeField]
+    private float _balance = 0f;
+    // We need to do this to be able to serialize field in Unity
+    public float balance
+    {
+        get { return _balance;  }
+        private set
+        {
+            _balance = value;
+            UpdateMoneyUI();
+        }
+    }
 
     public void Start()
     {
-        UpdateMoney();
+        UpdateMoneyUI();
     }
 
-    public void SetMoney(float income)
+    /// <summary>
+    /// Changes the balance by the amount passed in
+    /// </summary>
+    /// <param name="amount">Positive to add, Negative to subtract</param>
+    public void AddAmount(float amount)
     {
-        // Positive to add, Negative to subtract
-        money += income;
-
-        UpdateMoney();
+        this.balance += amount;
     }
 
-    public float GetMoney()
-    {
-        return money;
-    }
-
-    public void UpdateMoney()
+    public void UpdateMoneyUI()
     {
         // Update money in UI everytime money is changed
-        MoneyField.text = "$ " + (int)money;
+        MoneyField.text = "$ " + (int)balance;
     }
 }

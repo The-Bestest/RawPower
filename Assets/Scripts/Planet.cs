@@ -24,7 +24,6 @@ public class Planet : MonoBehaviour
         ShowActionableModel();
     }
 
-
     public void startBuilding(GameObject model)
     {
         if (actionableModel) // If we are already building something
@@ -54,7 +53,7 @@ public class Planet : MonoBehaviour
         }
 
         int price = actionableModel.GetComponent<Actionable>().price;
-        MoneyManager.Instance.SetMoney(-price);
+        MoneyManager.Instance.AddAmount(-price);
 
         actionables.Add(Instantiate(actionableModel));
 
@@ -64,11 +63,11 @@ public class Planet : MonoBehaviour
     public void Demolish(GameObject actionable)
     {
         int price = actionable.GetComponent<Actionable>().demolishPrice;
-        if (price <= MoneyManager.Instance.GetMoney())
+        if (price <= MoneyManager.Instance.balance)
         {
             actionables.Remove(actionable);
             Destroy(actionable);
-            MoneyManager.Instance.SetMoney(-price);
+            MoneyManager.Instance.AddAmount(-price);
         }
     }
 
@@ -131,7 +130,7 @@ public class Planet : MonoBehaviour
         }
 
         int price = objectToBuild.GetComponent<Actionable>().price;
-        if (MoneyManager.Instance.GetMoney() < price)
+        if (MoneyManager.Instance.balance < price)
         {
             return false;
         }

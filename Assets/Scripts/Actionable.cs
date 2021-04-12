@@ -98,11 +98,11 @@ public class Actionable : MonoBehaviour
     }
     public void Repair()
     {
-        if (repairPrice <= MoneyManager.Instance.GetMoney())
+        if (repairPrice <= MoneyManager.Instance.balance)
         {
             state = ActionableState.OK;
             setDefaultMaterial();
-            MoneyManager.Instance.SetMoney(-repairPrice);
+            MoneyManager.Instance.AddAmount(-repairPrice);
         }
     }
 

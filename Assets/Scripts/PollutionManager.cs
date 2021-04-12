@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class PollutionManager : MonoBehaviour
@@ -24,25 +25,37 @@ public class PollutionManager : MonoBehaviour
         }
     }
 
-    public Text PollutionPrecent;
+    public Text PollutionText;
     public RawImage CurrentPollution;
     public RawImage TotalPollution;
 
 
-    public float pollution = 0;
-    public float maxPollution = 100;
+    private float pollution = 0;
+    public float maxPollution { get; private set; } = 100;
 
-    public void UpdatePollution()
+    public void IncreasePollution(float pollutionIncrease)
+    {
+        pollution += pollutionIncrease;
+        UpdatePollutionUI();
+    }
+
+    public float getPollutionProgress()
+    {
+        return (pollution * 100 / maxPollution);
+    }
+
+    private void UpdatePollutionUI()
     {
         if (pollution < maxPollution)
         {
-            PollutionPrecent.text = (int)(pollution / maxPollution * 100) + "%";
-            CurrentPollution.rectTransform.sizeDelta = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * (pollution / maxPollution * 100), TotalPollution.rectTransform.sizeDelta.y);
-            CurrentPollution.rectTransform.anchoredPosition = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * (pollution / maxPollution * 100) / 2, 0);
+            PollutionText.text = (int) getPollutionProgress() + "%";
+            CurrentPollution.rectTransform.sizeDelta = new Vector2((TotalPollution.rectTransform.sizeDelta.x / 100) * getPollutionProgress() * 0.95f, TotalPollution.rectTransform.sizeDelta.y);
+            CurrentPollution.rectTransform.anchoredPosition = new Vector2(10, 0);
         }
         else
         {
-            PollutionPrecent.text = "100%";
+            pollution = 100;
+            PollutionText.text = "100%";
         }
     }
 }
