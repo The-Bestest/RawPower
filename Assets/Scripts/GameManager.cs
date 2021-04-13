@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     Planet planet;
 
     public Text WinText;
+    public Image MoneyCheckIndicator;
     public GameObject WinBackground;
     public float expectedGameTimeInSeconds = 300;
     public float moneyCheckIntervalInSeconds = 5;
@@ -63,6 +64,11 @@ public class GameManager : MonoBehaviour
         if (elapsedTime > 20)
         {
             timeToCheckMoney -= Time.deltaTime;
+            MoneyCheckIndicator.fillAmount = 1 - timeToCheckMoney / moneyCheckIntervalInSeconds;
+        }
+        else
+        {
+            MoneyCheckIndicator.fillAmount = 0;
         }
         if (timeToCheckMoney < 0)
         {
