@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Temp : MonoBehaviour
+public class SoundControl : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        StartCoroutine(waiting());
+        DontDestroyOnLoad(this);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-
-    private IEnumerator waiting()
-    {
-        yield return new WaitForSecondsRealtime(4);
-        SceneManager.LoadScene(2);
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(2))
+        {
+             Destroy(this.gameObject);
+        }
     }
 }
