@@ -73,7 +73,11 @@ public class GameManager : MonoBehaviour
         if (timeToCheckMoney < 0)
         {
             float powerDifference = PowerManager.Instance.currentPowerLevel - PowerManager.Instance.currentPowerRequirement;
-            MoneyManager.Instance.AddAmount(powerDifference / 2);
+            
+            if(powerDifference < 0)
+            {
+                MoneyManager.Instance.AddAmount(powerDifference / 2);
+            }
 
             timeToCheckMoney = moneyCheckIntervalInSeconds;
         }
