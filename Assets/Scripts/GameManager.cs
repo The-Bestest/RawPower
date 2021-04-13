@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     }
     Planet planet;
 
+    public Image MoneyCheckIndicator;
+
     public float expectedGameTimeInSeconds = 300;
     public float moneyCheckIntervalInSeconds = 5;
 
@@ -59,11 +61,16 @@ public class GameManager : MonoBehaviour
         if (elapsedTime > 20)
         {
             timeToCheckMoney -= Time.deltaTime;
+            MoneyCheckIndicator.fillAmount = 1 - timeToCheckMoney / moneyCheckIntervalInSeconds;
+        }
+        else
+        {
+            MoneyCheckIndicator.fillAmount = 0;
         }
         if (timeToCheckMoney < 0)
         {
             float powerDifference = PowerManager.Instance.currentPowerLevel - PowerManager.Instance.currentPowerRequirement;
-            if (powerDifference < 0)
+            if(powerDifference < 0)
             {
                 MoneyManager.Instance.AddAmount(powerDifference / 2);
             }
