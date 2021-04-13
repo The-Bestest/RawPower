@@ -53,11 +53,11 @@ public class WinLose : MonoBehaviour
 
     public void Menu()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     public void Reload()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(2);
     }
     /*
     IEnumerator Fading(string winOrLose)

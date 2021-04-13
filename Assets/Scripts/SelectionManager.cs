@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // see https://gamedev.stackexchange.com/a/189657/64597
 public class SelectionManager : MonoBehaviour
@@ -36,6 +37,10 @@ public class SelectionManager : MonoBehaviour
 
     void Update()
     {
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
+        {
+            return;
+        }
         if (Input.GetMouseButtonDown(0))
         {
             if (GetClickedGameObject() == null)
