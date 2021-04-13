@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SoundControl : MonoBehaviour
 {
+    public AudioSource BackGround;
     // Start is called before the first frame update
     void Awake()
     {
@@ -16,7 +17,11 @@ public class SoundControl : MonoBehaviour
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(2))
         {
-             Destroy(this.gameObject);
+            BackGround.Stop();
+        }
+        else if (!BackGround.isPlaying && SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(1))
+        {
+            BackGround.Play();
         }
     }
 }
