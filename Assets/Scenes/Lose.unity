@@ -194,7 +194,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: 'Game over
+
+    You Lose'
 --- !u!222 &51821692
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -215,7 +217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19f0e20498bb304f9d920841998b022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WinLoseText: {fileID: 51821691}
 --- !u!1 &325716302
 GameObject:
   m_ObjectHideFlags: 0
