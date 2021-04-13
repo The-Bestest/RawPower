@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class WinLose : MonoBehaviour
 {
-    static WinLose _instance;
+    /*static WinLose _instance;
     public static WinLose Instance
     {
         get
@@ -23,11 +23,11 @@ public class WinLose : MonoBehaviour
 
             return _instance;
         }
-    }
+    }*/
     public Text WinLoseText;
-    public RawImage GreyScale;
-    public Button Replay;
-
+    //public RawImage GreyScale;
+    //public Button Replay;
+    /*
     public void Lose()
     {
         StartCoroutine(Fading("Game Over \n The earth is ruined by pollution"));
@@ -35,14 +35,31 @@ public class WinLose : MonoBehaviour
 
     public void Win()
     {
-        StartCoroutine(Fading("Game Over \n You supplied the earth with power, without destroying the planet, good job-"));
+        StartCoroutine(Fading("Game Over \n You supplied the earth with power, without destroying the planet, good job"));
+    }
+    */
+    void Start()
+    {
+        //WinLoseText = GameObject.Find("WinLose").GetComponent<Text>();
+        if(GameManager.Instance.wonOrLost)
+        {
+            WinLoseText.text = "Game over\nYou won!";
+        }
+        else
+        {
+            WinLoseText.text = "Game over\nYou lost!";
+        }
     }
 
+    public void Menu()
+    {
+        SceneManager.LoadScene(0);
+    }
     public void Reload()
     {
         SceneManager.LoadScene(1);
     }
-
+    /*
     IEnumerator Fading(string winOrLose)
     {
         GreyScale.gameObject.SetActive(true);
@@ -67,5 +84,5 @@ public class WinLose : MonoBehaviour
             Replay.gameObject.SetActive(true);
         }
         yield return null;
-    }
+    }*/
 }

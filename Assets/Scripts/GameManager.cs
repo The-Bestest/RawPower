@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -34,6 +35,8 @@ public class GameManager : MonoBehaviour
     private float startTime;
     private float timeToCheckMoney = 0;
 
+    public bool wonOrLost;
+
     void Start()
     {
         startTime = Time.time;
@@ -43,7 +46,12 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        float multiplier = expectedGameTimeInSeconds/30000;
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
+        {
+            return;
+        }
+
+        float multiplier = expectedGameTimeInSeconds / 30000;
         float timeFactor = Time.deltaTime * multiplier;
         float elapsedTime = Time.time - startTime;
 
@@ -52,36 +60,40 @@ public class GameManager : MonoBehaviour
         PowerManager.Instance.SetPowerRequirement(GetCurrentPowerRequirement(elapsedTime));
         MoneyManager.Instance.AddAmount(GetCurrentIncome() * timeFactor);
 
-        if(elapsedTime > 20)
+        if (elapsedTime > 20)
         {
             timeToCheckMoney -= Time.deltaTime;
         }
-        if(timeToCheckMoney < 0)
+        if (timeToCheckMoney < 0)
         {
             float powerDifference = PowerManager.Instance.currentPowerLevel - PowerManager.Instance.currentPowerRequirement;
-            MoneyManager.Instance.AddAmount(powerDifference/2);
+            MoneyManager.Instance.AddAmount(powerDifference / 2);
 
             timeToCheckMoney = moneyCheckIntervalInSeconds;
         }
 
         WinOrLose();
+
     }
 
     private void WinOrLose()
     {
         if (PowerManager.Instance.currentPowerRequirement >= PowerManager.Instance.maxRequirement && PowerManager.Instance.currentPowerLevel >= PowerManager.Instance.maxRequirement)
         {
-            WinLose.Instance.Win();
+            wonOrLost = true;
+            SceneManager.LoadScene(3);
             Debug.Log("WIIN");
         }
         else if(MoneyManager.Instance.balance < 0)
         {
-            WinLose.Instance.Lose();
+            wonOrLost = false;
+            SceneManager.LoadScene(3);
             Debug.Log("NO MOENYS");
         }
         else if(PollutionManager.Instance.getPollutionProgress() >= 100)
         {
-            WinLose.Instance.Lose();
+            wonOrLost = false;
+            SceneManager.LoadScene(3);
             Debug.Log("TOO POLUTION");
         }
     }
@@ -141,5 +153,4 @@ public class GameManager : MonoBehaviour
 
         return result;
     }
-
 }
