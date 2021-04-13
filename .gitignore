@@ -60,3 +60,6 @@ crashlytics-build.properties
 
 MonoBleedingEdge/
 reprex_Data/
+reprex.exe
+UnityCrashHandler64.exe
+UnityPlayer.dll
