@@ -27,15 +27,11 @@ public class GameManager : MonoBehaviour
     }
     Planet planet;
 
-    public Text WinText;
-    public GameObject WinBackground;
     public float expectedGameTimeInSeconds = 300;
     public float moneyCheckIntervalInSeconds = 5;
 
     private float startTime;
     private float timeToCheckMoney = 0;
-
-    public bool wonOrLost;
 
     void Start()
     {
@@ -67,7 +63,10 @@ public class GameManager : MonoBehaviour
         if (timeToCheckMoney < 0)
         {
             float powerDifference = PowerManager.Instance.currentPowerLevel - PowerManager.Instance.currentPowerRequirement;
-            MoneyManager.Instance.AddAmount(powerDifference / 2);
+            if (powerDifference < 0)
+            {
+                MoneyManager.Instance.AddAmount(powerDifference / 2);
+            }
 
             timeToCheckMoney = moneyCheckIntervalInSeconds;
         }
@@ -80,19 +79,16 @@ public class GameManager : MonoBehaviour
     {
         if (PowerManager.Instance.currentPowerRequirement >= PowerManager.Instance.maxRequirement && PowerManager.Instance.currentPowerLevel >= PowerManager.Instance.maxRequirement)
         {
-            wonOrLost = true;
-            SceneManager.LoadScene(3);
+            SceneManager.LoadScene(4);
             Debug.Log("WIIN");
         }
         else if(MoneyManager.Instance.balance < 0)
         {
-            wonOrLost = false;
             SceneManager.LoadScene(3);
             Debug.Log("NO MOENYS");
         }
         else if(PollutionManager.Instance.getPollutionProgress() >= 100)
         {
-            wonOrLost = false;
             SceneManager.LoadScene(3);
             Debug.Log("TOO POLUTION");
         }
