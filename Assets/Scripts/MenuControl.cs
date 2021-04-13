@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Temp : MonoBehaviour
+public class MenuControl : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(waiting());
+        
     }
 
     // Update is called once per frame
@@ -17,9 +17,18 @@ public class Temp : MonoBehaviour
         
     }
 
-    private IEnumerator waiting()
+    public void GameStart()
     {
-        yield return new WaitForSecondsRealtime(4);
         SceneManager.LoadScene(2);
+    }
+
+    public void GameHow2Play()
+    {
+        //Add functionality
+    }
+
+    public void GameQuit()
+    {
+        Application.Quit();
     }
 }
