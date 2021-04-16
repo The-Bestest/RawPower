@@ -99,10 +99,10 @@ MonoBehaviour:
   disabledMaterial: {fileID: 2100000, guid: a7ae19f09265e484ba4062706a51e46a, type: 2}
   fadeoutMaterial: {fileID: 2100000, guid: ae7a7d7315974b5428c44a6210b0ea10, type: 2}
   breakdownMaterial: {fileID: 2100000, guid: a7ae19f09265e484ba4062706a51e46a, type: 2}
-  price: 190
+  price: 200
   income: 260
   power: 40
-  repairPrice: 100
+  repairPrice: 50
   demolishPrice: 200
   pollution: 0
   state: 0

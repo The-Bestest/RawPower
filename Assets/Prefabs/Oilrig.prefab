@@ -102,7 +102,7 @@ MonoBehaviour:
   price: 40
   income: 100
   power: 22
-  repairPrice: 20
+  repairPrice: 10
   demolishPrice: 35
   pollution: 22
   state: 0
